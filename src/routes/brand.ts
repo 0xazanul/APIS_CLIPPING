@@ -2,6 +2,7 @@ import { OpenAPIHono } from '@hono/zod-openapi'
 import { authMiddleware, roleMiddleware, type Variables } from '../middlewares/auth'
 import { createRoute, z } from '@hono/zod-openapi'
 import { CampaignService } from '../services/campaignService'
+import { ParticipationService } from '../services/participationService'
 import {
   createCampaignRoute,
   getBrandCampaignsRoute,
@@ -9,6 +10,7 @@ import {
   toggleCampaignStatusRoute,
   deleteCampaignRoute,
 } from './campaignOpenapi'
+import { getCampaignParticipantsRoute } from './participationOpenapi'
 
 const brandApp = new OpenAPIHono<{ Variables: Variables }>()
 
@@ -118,6 +120,19 @@ brandApp.openapi(deleteCampaignRoute, async (c) => {
     return c.json(result, 200)
   } catch (error) {
     const status = (error as Error).message.includes('not found') ? 404 : 400
+    return c.json({ error: (error as Error).message }, status)
+  }
+})
+
+// Get Campaign Participants
+brandApp.openapi(getCampaignParticipantsRoute, async (c) => {
+  const user = c.get('user')
+  const { id } = c.req.valid('param')
+  try {
+    const result = await ParticipationService.getCampaignParticipants(id, user.userId)
+    return c.json(result, 200)
+  } catch (error) {
+    const status = (error as Error).message.includes('not found') ? 404 : 403
     return c.json({ error: (error as Error).message }, status)
   }
 })

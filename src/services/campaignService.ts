@@ -1,5 +1,6 @@
 import { getSupabase } from '../config/supabase'
 import type { CreateCampaign, UpdateCampaign } from '../models/campaign'
+import { ParticipationService } from './participationService'
 
 export class CampaignService {
   /**
@@ -45,7 +46,17 @@ export class CampaignService {
       throw new Error(error.message)
     }
 
-    return { campaigns }
+    // Get participant counts for all campaigns
+    const campaignIds = campaigns?.map(c => c.id) || []
+    const counts = await ParticipationService.getCampaignParticipantCounts(campaignIds)
+
+    // Add participant count to each campaign
+    const campaignsWithCounts = campaigns?.map(c => ({
+      ...c,
+      participants_count: counts[c.id] || 0,
+    }))
+
+    return { campaigns: campaignsWithCounts }
   }
 
   /**
