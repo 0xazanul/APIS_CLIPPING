@@ -1,6 +1,8 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { authMiddleware, roleMiddleware, type Variables } from '../middlewares/auth'
 import { createRoute, z } from '@hono/zod-openapi'
+import { CampaignService } from '../services/campaignService'
+import { getAllActiveCampaignsRoute } from './campaignOpenapi'
 
 const clipperApp = new OpenAPIHono<{ Variables: Variables }>()
 
@@ -47,6 +49,18 @@ clipperApp.openapi(clipperDashboardRoute, (c) => {
       earnings: 1250.50,
     },
   })
+})
+
+// ============= CAMPAIGN ROUTES =============
+
+// Get All Active Campaigns (from all brands)
+clipperApp.openapi(getAllActiveCampaignsRoute, async (c) => {
+  try {
+    const result = await CampaignService.getAllActiveCampaigns()
+    return c.json(result, 200)
+  } catch (error) {
+    return c.json({ error: (error as Error).message }, 400)
+  }
 })
 
 export default clipperApp
