@@ -1,0 +1,20 @@
+- Always use clean and minimal code examples.
+- Do not use any demonstrative or placeholder text.
+- Follow best practices for security and performance.
+- Follow Hono.js and Supabase official documentation for any implementation details.
+- Ensure all code snippets are properly formatted and syntactically correct.
+- Dont create unwanted files or directories.
+- Keep things simple and straightforward.
+- Dont make it too complex.
+- Always use swagger ui and openapi for api documentation.
+- Document all API endpoints using OpenAPI specifications.
+- Integrate Swagger UI to serve the OpenAPI documentation at `/api-docs` endpoint.
+- Ensure the OpenAPI documentation is automatically generated from the codebase.
+- Use appropriate HTTP status codes for all API responses.
+- Ensure all environment variables are securely managed and not hardcoded.
+- Implement error handling for all API endpoints.
+- Do not create any frontend code or files as this is strictly a backend API project.
+- Always return json responses from all endpoints.
+- Use proper role-based access control for sensitive endpoints.
+- There will be 2 roles in the api: Brand and Clippers.
+- Always use modular code, so it can be easily maintained and extended.
