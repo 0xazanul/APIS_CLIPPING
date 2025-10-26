@@ -9,6 +9,7 @@ export const CreateCampaignSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters'),
   rules: z.string().min(5, 'Rules must be at least 5 characters'),
   budget: z.number().positive('Budget must be a positive number'),
+  assets_link: z.string().url('Assets link must be a valid URL'),
 })
 
 // Update campaign schema (all fields optional)
@@ -17,6 +18,7 @@ export const UpdateCampaignSchema = z.object({
   description: z.string().min(10).optional(),
   rules: z.string().min(5).optional(),
   budget: z.number().positive().optional(),
+  assets_link: z.string().url().optional(),
 })
 
 // Campaign response schema
@@ -28,6 +30,7 @@ export const CampaignResponseSchema = z.object({
   description: z.string(),
   rules: z.string(),
   budget: z.number(),
+  assets_link: z.string(),
   status: CampaignStatus,
   created_at: z.string(),
   updated_at: z.string(),

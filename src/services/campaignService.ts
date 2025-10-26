@@ -16,6 +16,7 @@ export class CampaignService {
         description: data.description,
         rules: data.rules,
         budget: data.budget,
+        assets_link: data.assets_link,
         status: 'active',
       })
       .select()
